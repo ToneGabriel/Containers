@@ -26,6 +26,21 @@ public:
 		return iterator;
 	}
 
+	LinkedListIterator& operator+=(const size_t diff) {
+		size_t aux = diff;
+		while (aux) {
+			NodePtr = NodePtr->Next;
+			aux--;
+		}
+		return *this;
+	}
+
+	LinkedListIterator& operator+(const size_t diff) {
+		LinkedListIterator temp = *this;
+		temp += diff;
+		return temp;
+	}
+
 	LinkedListIterator& operator--() {
 		NodePtr = NodePtr->Previous;
 		return *this;
@@ -35,6 +50,21 @@ public:
 		LinkedListIterator iterator = NodePtr;
 		NodePtr = NodePtr->Previous;
 		return iterator;
+	}
+
+	LinkedListIterator& operator-=(const size_t diff) {
+		size_t aux = diff;
+		while (aux) {
+			NodePtr = NodePtr->Previous;
+			aux--;
+		}
+		return *this;
+	}
+
+	LinkedListIterator& operator-(const size_t diff) {
+		LinkedListIterator temp = *this;
+		temp -= diff;
+		return temp;
 	}
 
 	Node* operator->() {

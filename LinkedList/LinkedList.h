@@ -65,24 +65,15 @@ public:
 
 	template<class... Args>
 	void resize(const size_t& newSize, Args&&... args) {                    // Resize the list by removing or adding elements to the tail
-		while (_size > newSize)
-			pop_back();
-		while (_size < newSize)
-			emplace_back(std::forward<Args>(args)...);                      // Emplace type addition
+		resize_emplace(newSize, std::forward<Args>(args)...);               // Emplace type addition
 	}
 
 	void resize(const size_t& newSize, const ValueType& copyValue) {
-		while (_size > newSize)
-			pop_back();
-		while (_size < newSize)
-			push_back(copyValue);                                           // Reference type addition
+		resize_emplace(newSize, copyValue);                                 // Reference type addition
 	}
 
 	void resize(const size_t& newSize, ValueType&& moveValue) {
-		while (_size > newSize)
-			pop_back();
-		while (_size < newSize)
-			push_back(std::move(moveValue));                                // Temporary type addition
+		resize_emplace(newSize, std::move(moveValue));                      // Temporary type addition
 	}
 
 	template<class... Args>
@@ -174,6 +165,9 @@ public:
 	}
 
 	Iterator pop(const Iterator& iterator) {                                 // Remove component at index position
+		if (iterator == end())
+			throw std::out_of_range("Array pop iterator outside range...");
+
 		_workspaceNode = iterator.NodePtr;
 
 		_workspaceNode->Previous->Next = _workspaceNode->Next;
@@ -253,6 +247,14 @@ public:
 
 private:
 	// Others
+
+	template<class... Args>
+	void resize_emplace(const size_t& newSize, Args&&... args) {             // Resize the list by removing or adding elements to the tail
+		while (_size > newSize)
+			pop_back();
+		while (_size < newSize)
+			emplace_back(std::forward<Args>(args)...);                       // Emplace type addition
+	}
 
 	Node* scroll_node(const size_t& index) const {                           // Get object in the list at index position by going through all components
 		_workspaceNode = _head->Next;
