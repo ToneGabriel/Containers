@@ -35,7 +35,7 @@ public:
 		return *this;
 	}
 
-	LinkedListIterator& operator+(const size_t diff) {
+	LinkedListIterator operator+(const size_t diff) {
 		LinkedListIterator temp = *this;
 		temp += diff;
 		return temp;
@@ -61,7 +61,7 @@ public:
 		return *this;
 	}
 
-	LinkedListIterator& operator-(const size_t diff) {
+	LinkedListIterator operator-(const size_t diff) {
 		LinkedListIterator temp = *this;
 		temp -= diff;
 		return temp;
