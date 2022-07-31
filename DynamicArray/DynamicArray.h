@@ -124,6 +124,8 @@ public:
 	template<class... Args>
 	Iterator emplace(const Iterator& iterator, Args&&... args) {                 // Emplace object at iterator position with given arguments
 		size_t index = get_iterator_index(iterator);
+		if (index < 0 || index > _size)
+			throw std::out_of_range("Array emplace iterator outside range...");
 
 		emplace_back();
 		for (size_t i = _size - 1; i > index; i--)
