@@ -143,6 +143,9 @@ public:
 	template<class... Args>
 	Iterator emplace(const Iterator& iterator, Args&&... args) {            // Construct object using arguments (Args) and add it to the index position
 		_workspaceNode = iterator.NodePtr;
+		if (_workspaceNode == nullptr || _workspaceNode->Previous == nullptr)
+			throw std::out_of_range("Array emplace iterator outside range...");
+		
 		Node* newNode = new Node(std::forward<Args>(args)...);
 
 		_workspaceNode->Previous->Next = newNode;
